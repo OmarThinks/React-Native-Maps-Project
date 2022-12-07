@@ -17,6 +17,8 @@ import {
   View,
 } from 'react-native';
 
+import MainMap from './app/Routes/MainMap';
+
 import {
   Colors,
   DebugInstructions,
@@ -113,4 +115,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const App2 = () => {
+  return <MainMap />;
+};
+
+export default App2;
