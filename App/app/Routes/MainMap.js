@@ -10,13 +10,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  container2: {
+    ...StyleSheet.absoluteFillObject,
+  },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
 });
 
 export default () => (
-  <View style={styles.container}>
+  <View style={styles.container2}>
     <MapView
       provider={PROVIDER_GOOGLE} // remove if not using Google Maps
       style={styles.map}
