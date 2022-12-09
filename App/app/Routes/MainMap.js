@@ -6,6 +6,7 @@ import MapView, {
   Overlay,
   UrlTile,
   Callout,
+  Circle,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
 const styles = StyleSheet.create({
@@ -48,8 +49,8 @@ const MainMap = () => {
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
         style={styles.map}
         region={region}
-        //onRegionChange={onRegionChange}
         onRegionChangeComplete={onRegionChange}>
+        <Circle radius={300} center={markerLocation} />
         <Marker
           coordinate={markerLocation}
           draggable={true}
@@ -57,9 +58,14 @@ const MainMap = () => {
             console.log('onDragEnd', e.nativeEvent.coordinate);
             setMarkerLocation(e.nativeEvent.coordinate);
           }}
+          onDrag={e => {
+            console.log('onDragEnd', e.nativeEvent.coordinate);
+            setMarkerLocation(e.nativeEvent.coordinate);
+          }}
           pinColor={'red'}
           onDragStart={e => {
             console.log('onDragStart', e.nativeEvent.coordinate);
+            setMarkerLocation(e.nativeEvent.coordinate);
           }}>
           <Callout>
             <Text>Hey</Text>
