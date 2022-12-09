@@ -1,6 +1,6 @@
 import React, {useState, Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, {PROVIDER_GOOGLE, Marker, Overlay} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +25,12 @@ const MainMap = () => {
     latitudeDelta: 0.015,
     longitudeDelta: 0.0121,
   });
-  console.log('region', region);
+  //console.log('region', region);
+
+  const [markerLocation, setMarkerLocation] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+  });
 
   const onRegionChange = regionNew => {
     setRegion(regionNew);
@@ -40,9 +45,24 @@ const MainMap = () => {
         //onRegionChange={onRegionChange}
         onRegionChangeComplete={onRegionChange}>
         <Marker
-          coordinate={{latitude: 37.78825, longitude: -122.4324}}
+          coordinate={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+          }}
           title={'Hi'}
           description={'Welcome'}
+          draggable
+          onDragEnd={e => {
+            console.log('onDragEnd', e.nativeEvent.coordinate);
+            //setMarkerLocation(e.nativeEvent.coordinate);
+          }}
+          pinColor={'green'}
+          /*onDrag={e => {
+            setMarkerLocation(e.nativeEvent.coordinate);
+          }}*/
+          onDragStart={e => {
+            console.log('onDragStart', e.nativeEvent.coordinate);
+          }}
         />
       </MapView>
     </View>
