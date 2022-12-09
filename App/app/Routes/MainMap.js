@@ -2,6 +2,34 @@ import React, {useState, Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
+/*
+class MainMap2 extends Component {
+  getInitialState() {
+    return {
+      region: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    };
+  }
+
+  onRegionChange(region) {
+    this.setState({region});
+  }
+
+  render() {
+    return (
+      <MapView
+        region={this.state.region}
+        onRegionChange={this.onRegionChange}
+      />
+    );
+  }
+}
+*/
+
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
@@ -37,7 +65,8 @@ const MainMap = () => {
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
         style={styles.map}
         region={region}
-        onRegionChange={onRegionChange}
+        //onRegionChange={onRegionChange}
+        onRegionChangeComplete={onRegionChange}
       />
     </View>
   );
