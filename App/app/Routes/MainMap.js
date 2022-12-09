@@ -1,34 +1,6 @@
 import React, {useState, Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-
-/*
-class MainMap2 extends Component {
-  getInitialState() {
-    return {
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    };
-  }
-
-  onRegionChange(region) {
-    this.setState({region});
-  }
-
-  render() {
-    return (
-      <MapView
-        region={this.state.region}
-        onRegionChange={this.onRegionChange}
-      />
-    );
-  }
-}
-*/
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
 const styles = StyleSheet.create({
   container: {
@@ -66,10 +38,43 @@ const MainMap = () => {
         style={styles.map}
         region={region}
         //onRegionChange={onRegionChange}
-        onRegionChangeComplete={onRegionChange}
-      />
+        onRegionChangeComplete={onRegionChange}>
+        <Marker
+          coordinate={{latitude: 37.78825, longitude: -122.4324}}
+          title={'Hi'}
+          description={'Welcome'}
+        />
+      </MapView>
     </View>
   );
 };
 
 export default MainMap;
+
+/*
+class MainMap2 extends Component {
+  getInitialState() {
+    return {
+      region: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    };
+  }
+
+  onRegionChange(region) {
+    this.setState({region});
+  }
+
+  render() {
+    return (
+      <MapView
+        region={this.state.region}
+        onRegionChange={this.onRegionChange}
+      />
+    );
+  }
+}
+*/
