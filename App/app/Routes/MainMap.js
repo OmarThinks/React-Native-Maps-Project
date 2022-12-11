@@ -8,6 +8,7 @@ import MapView, {
   Callout,
   Circle,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapViewDirections from 'react-native-maps-directions';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +39,10 @@ const MainMap = () => {
     latitude: 37.78825,
     longitude: -122.4324,
   });
+
+  const origin = {latitude: 37.3318456, longitude: -122.0296002};
+  const destination = markerLocation;
+  const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
 
   const onRegionChange = regionNew => {
     setRegion(regionNew);
@@ -71,6 +76,13 @@ const MainMap = () => {
             <Text>Hey</Text>
           </Callout>
         </Marker>
+        <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={10}
+          strokeColor="hotpink"
+        />
       </MapView>
     </View>
   );
