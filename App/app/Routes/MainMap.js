@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState, Component, useMemo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import MapView, {
   PROVIDER_GOOGLE,
@@ -61,6 +61,18 @@ const MainMap = () => {
 
   const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
 
+  const directionView = useMemo(() => {
+    return (
+      <MapViewDirections
+        origin={directionFrom}
+        destination={directionTo}
+        apikey={GOOGLE_MAPS_APIKEY}
+        strokeWidth={10}
+        strokeColor="blue"
+      />
+    );
+  }, [directionFrom, directionTo]);
+
   const onRegionChange = regionNew => {
     setRegion(regionNew);
   };
@@ -79,7 +91,7 @@ const MainMap = () => {
           console.log('onDragEnd', e.nativeEvent.coordinate);
           setLocationFrom(e.nativeEvent.coordinate);
         }}
-        pinColor={'red'}
+        pinColor={'green'}
         onDragStart={e => {
           console.log('onDragStart', e.nativeEvent.coordinate);
           setLocationFrom(e.nativeEvent.coordinate);
@@ -101,7 +113,7 @@ const MainMap = () => {
           console.log('onDragEnd', e.nativeEvent.coordinate);
           setLocationTo(e.nativeEvent.coordinate);
         }}
-        pinColor={'green'}
+        pinColor={'red'}
         onDragStart={e => {
           console.log('onDragStart', e.nativeEvent.coordinate);
           setLocationTo(e.nativeEvent.coordinate);
@@ -115,6 +127,7 @@ const MainMap = () => {
           <Text>To</Text>
         </Callout>
       </Marker>
+      {directionView}
     </MapView>
   );
 };
@@ -124,13 +137,7 @@ export default MainMap;
 /*
 
 
-      <MapViewDirections
-        origin={location2}
-        destination={location2}
-        apikey={GOOGLE_MAPS_APIKEY}
-        strokeWidth={10}
-        strokeColor="hotpink"
-      />
+
 
 
 
