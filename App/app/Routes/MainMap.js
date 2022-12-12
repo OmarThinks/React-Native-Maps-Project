@@ -9,6 +9,7 @@ import MapView, {
   Circle,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import MapViewDirections from 'react-native-maps-directions';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +26,22 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 });
+
+const GooglePlacesInput = () => {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: 'YOUR API KEY',
+        language: 'en',
+      }}
+    />
+  );
+};
 
 const MainMap = () => {
   const [region, setRegion] = useState({
@@ -49,71 +66,56 @@ const MainMap = () => {
   };
 
   return (
-    <View style={styles.container2}>
-      <MapView
-        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-        style={styles.map}
-        region={region}
-        onRegionChangeComplete={onRegionChange}>
-        <Circle radius={300} center={markerLocation} />
-        <Marker
-          coordinate={markerLocation}
-          draggable={true}
-          onDragEnd={e => {
-            console.log('onDragEnd', e.nativeEvent.coordinate);
-            setMarkerLocation(e.nativeEvent.coordinate);
-          }}
-          onDrag={e => {
-            console.log('onDragEnd', e.nativeEvent.coordinate);
-            setMarkerLocation(e.nativeEvent.coordinate);
-          }}
-          pinColor={'red'}
-          onDragStart={e => {
-            console.log('onDragStart', e.nativeEvent.coordinate);
-            setMarkerLocation(e.nativeEvent.coordinate);
-          }}>
-          <Callout>
-            <Text>Hey</Text>
-          </Callout>
-        </Marker>
-        <MapViewDirections
-          origin={origin}
-          destination={destination}
-          apikey={GOOGLE_MAPS_APIKEY}
-          strokeWidth={10}
-          strokeColor="hotpink"
-        />
-      </MapView>
-    </View>
+    <MapView
+      provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+      style={styles.map}
+      region={region}
+      onRegionChangeComplete={onRegionChange}>
+      <Circle radius={300} center={markerLocation} />
+      <Marker
+        coordinate={markerLocation}
+        draggable={true}
+        onDragEnd={e => {
+          console.log('onDragEnd', e.nativeEvent.coordinate);
+          setMarkerLocation(e.nativeEvent.coordinate);
+        }}
+        onDrag={e => {
+          console.log('onDragEnd', e.nativeEvent.coordinate);
+          setMarkerLocation(e.nativeEvent.coordinate);
+        }}
+        pinColor={'red'}
+        onDragStart={e => {
+          console.log('onDragStart', e.nativeEvent.coordinate);
+          setMarkerLocation(e.nativeEvent.coordinate);
+        }}>
+        <Callout>
+          <Text>Hey</Text>
+        </Callout>
+      </Marker>
+      <MapViewDirections
+        origin={origin}
+        destination={destination}
+        apikey={GOOGLE_MAPS_APIKEY}
+        strokeWidth={10}
+        strokeColor="hotpink"
+      />
+    </MapView>
   );
 };
 
 export default MainMap;
 
 /*
-class MainMap2 extends Component {
-  getInitialState() {
-    return {
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    };
-  }
-
-  onRegionChange(region) {
-    this.setState({region});
-  }
-
-  render() {
-    return (
-      <MapView
-        region={this.state.region}
-        onRegionChange={this.onRegionChange}
+    <View style={styles.container2}>
+      <GooglePlacesAutocomplete
+        onPress={(data, details = null) => {
+          // 'details' is provided when fetchDetails = true
+          console.log(data, details);
+        }}
+        query={{
+          key: GOOGLE_MAPS_APIKEY,
+          language: 'en',
+        }}
       />
-    );
-  }
-}
+    </View>
 */
