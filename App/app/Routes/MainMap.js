@@ -27,22 +27,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const GooglePlacesInput = () => {
-  return (
-    <GooglePlacesAutocomplete
-      placeholder="Search"
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
-      query={{
-        key: 'YOUR API KEY',
-        language: 'en',
-      }}
-    />
-  );
-};
-
 const MainMap = () => {
   const location1 = {latitude: 37.78825, longitude: -122.4324};
   const location2 = {latitude: 37.3318456, longitude: -122.0296002};
@@ -138,6 +122,22 @@ export default MainMap;
 
 
 
+
+const GooglePlacesInput = () => {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: 'YOUR API KEY',
+        language: 'en',
+      }}
+    />
+  );
+};
 
 
 
