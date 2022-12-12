@@ -44,21 +44,21 @@ const GooglePlacesInput = () => {
 };
 
 const MainMap = () => {
+  const location1 = {latitude: 37.78825, longitude: -122.4324};
+  const location2 = {latitude: 37.3318456, longitude: -122.0296002};
+
   const [region, setRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
+    ...location1,
     latitudeDelta: 0.015,
     longitudeDelta: 0.0121,
   });
   //console.log('region', region);
 
-  const [markerLocation, setMarkerLocation] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  });
+  const [loactionFrom, setLocationFrom] = useState(location1);
+  const [directionFrom, setDirectionFrom] = useState(location1);
+  const [loactionTo, setLocationTo] = useState(location2);
+  const [directionTo, setDirectionTo] = useState(location2);
 
-  const origin = {latitude: 37.3318456, longitude: -122.0296002};
-  const destination = markerLocation;
   const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
 
   const onRegionChange = regionNew => {
@@ -71,34 +71,50 @@ const MainMap = () => {
       style={styles.map}
       region={region}
       onRegionChangeComplete={onRegionChange}>
-      <Circle radius={300} center={markerLocation} />
+      <Circle radius={300} center={loactionFrom} />
       <Marker
-        coordinate={markerLocation}
+        coordinate={loactionFrom}
         draggable={true}
-        onDragEnd={e => {
-          console.log('onDragEnd', e.nativeEvent.coordinate);
-          setMarkerLocation(e.nativeEvent.coordinate);
-        }}
         onDrag={e => {
           console.log('onDragEnd', e.nativeEvent.coordinate);
-          setMarkerLocation(e.nativeEvent.coordinate);
+          setLocationFrom(e.nativeEvent.coordinate);
         }}
         pinColor={'red'}
         onDragStart={e => {
           console.log('onDragStart', e.nativeEvent.coordinate);
-          setMarkerLocation(e.nativeEvent.coordinate);
+          setLocationFrom(e.nativeEvent.coordinate);
+        }}
+        onDragEnd={e => {
+          console.log('onDragEnd', e.nativeEvent.coordinate);
+          setLocationFrom(e.nativeEvent.coordinate);
+          setDirectionFrom(e.nativeEvent.coordinate);
         }}>
         <Callout>
-          <Text>Hey</Text>
+          <Text>From</Text>
         </Callout>
       </Marker>
-      <MapViewDirections
-        origin={origin}
-        destination={destination}
-        apikey={GOOGLE_MAPS_APIKEY}
-        strokeWidth={10}
-        strokeColor="hotpink"
-      />
+
+      <Marker
+        coordinate={loactionTo}
+        draggable={true}
+        onDrag={e => {
+          console.log('onDragEnd', e.nativeEvent.coordinate);
+          setLocationTo(e.nativeEvent.coordinate);
+        }}
+        pinColor={'green'}
+        onDragStart={e => {
+          console.log('onDragStart', e.nativeEvent.coordinate);
+          setLocationTo(e.nativeEvent.coordinate);
+        }}
+        onDragEnd={e => {
+          console.log('onDragEnd', e.nativeEvent.coordinate);
+          setLocationTo(e.nativeEvent.coordinate);
+          setDirectionTo(e.nativeEvent.coordinate);
+        }}>
+        <Callout>
+          <Text>To</Text>
+        </Callout>
+      </Marker>
     </MapView>
   );
 };
@@ -106,6 +122,18 @@ const MainMap = () => {
 export default MainMap;
 
 /*
+
+
+      <MapViewDirections
+        origin={location2}
+        destination={location2}
+        apikey={GOOGLE_MAPS_APIKEY}
+        strokeWidth={10}
+        strokeColor="hotpink"
+      />
+
+
+
     <View style={styles.container2}>
       <GooglePlacesAutocomplete
         onPress={(data, details = null) => {
