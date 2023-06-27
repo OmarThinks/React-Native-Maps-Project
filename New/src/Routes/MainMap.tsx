@@ -45,10 +45,6 @@ const MainMap = () => {
     );
   }, [directionFrom, directionTo]);
 
-  const onRegionChange = (regionNew: Region) => {
-    setRegion(regionNew);
-  };
-
   return (
     <View
       style={{
@@ -74,7 +70,13 @@ const MainMap = () => {
           alignSelf: 'stretch',
         }}
         initialRegion={region}>
-        <Circle radius={300} center={circleCenter} />
+        <Circle
+          radius={300}
+          center={circleCenter}
+          fillColor={'rgba(0,255,0,0.2)'}
+          strokeColor="'rgba(0,255,0,0.8)'"
+          strokeWidth={2.5}
+        />
         <Marker
           coordinate={location1}
           draggable={true}
