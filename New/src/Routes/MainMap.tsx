@@ -4,15 +4,25 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import MapView, {
   Callout,
   Circle,
+  LatLng,
   Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import MapViewDirections from 'react-native-maps-directions';
-import {LatLng} from 'react-native-maps';
+import MapViewDirections, {
+  MapDirectionsResponse,
+} from 'react-native-maps-directions';
 
 type Region = LatLng & {
   latitudeDelta: number;
   longitudeDelta: number;
+};
+
+type DirectionObject = {
+  distance: Number;
+  duration: Number;
+  coordinates: [];
+  fare: Object;
+  waypointOrder: [[]];
 };
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
@@ -41,6 +51,15 @@ const MainMap = () => {
         apikey={GOOGLE_MAPS_APIKEY}
         strokeWidth={10}
         strokeColor="blue"
+        onReady={(directionsObject: MapDirectionsResponse) => {
+          // console.log(directionsObject);
+          console.log('distance', directionsObject.distance);
+          console.log('duration', directionsObject.duration);
+          console.log('coordinates', directionsObject.coordinates);
+          console.log('fares', directionsObject.fares);
+          console.log('waypointOrder', directionsObject.waypointOrder);
+          console.log('legs', directionsObject.legs);
+        }}
       />
     );
   }, [directionFrom, directionTo]);
@@ -129,14 +148,18 @@ const MainMap = () => {
           flexShrink: 1,
           alignSelf: 'stretch',
           backgroundColor: 'white',
-          justifyContent: 'space-around',
+          //justifyContent: 'space-around',
           flexDirection: 'row',
         }}>
-        <View>
-          <Text>Trying</Text>
+        <View style={{flex: 1}}>
+          <Text style={{textAlign: 'center', padding: 5, color: 'black'}}>
+            Trying
+          </Text>
+          <Text style={{textAlign: 'center', padding: 5}}>Trying</Text>
         </View>
-        <View>
-          <Text>Trying</Text>
+        <View style={{flex: 1}}>
+          <Text style={{textAlign: 'center', padding: 5}}>Trying</Text>
+          <Text style={{textAlign: 'center', padding: 5}}>Trying</Text>
         </View>
       </View>
     </View>
