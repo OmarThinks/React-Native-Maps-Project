@@ -1,17 +1,8 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import MainMap from './src/Routes/MainMap';
 
 const App = () => {
-  return (
-    <View>
-      <Text>App</Text>
-    </View>
-  );
+  return <MainMap />;
 };
-
-/*
-
-
-*/
 
 export default App;
