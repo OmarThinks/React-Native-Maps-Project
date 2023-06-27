@@ -8,13 +8,9 @@ import MapView, {
   PROVIDER_GOOGLE,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import MapViewDirections from 'react-native-maps-directions';
+import {LatLng} from 'react-native-maps';
 
-type Location = {
-  latitude: number;
-  longitude: number;
-};
-
-type Region = Location & {
+type Region = LatLng & {
   latitudeDelta: number;
   longitudeDelta: number;
 };
@@ -22,8 +18,8 @@ type Region = Location & {
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
 
 const MainMap = () => {
-  const location1: Location = {latitude: 37.78825, longitude: -122.4324};
-  const location2: Location = {latitude: 37.3318456, longitude: -122.0296002};
+  const location1: LatLng = {latitude: 37.78825, longitude: -122.4324};
+  const location2: LatLng = {latitude: 37.3318456, longitude: -122.0296002};
 
   const [region, setRegion] = useState<Region>({
     ...location1,
@@ -32,10 +28,10 @@ const MainMap = () => {
   });
   //console.log('region', region);
 
-  const [loactionFrom, setLocationFrom] = useState<Location>(location1);
-  const [directionFrom, setDirectionFrom] = useState<Location>(location1);
-  const [loactionTo, setLocationTo] = useState<Location>(location2);
-  const [directionTo, setDirectionTo] = useState<Location>(location2);
+  const [circleCenter, setCircleCenter] = useState<LatLng>(location1);
+
+  const [directionFrom, setDirectionFrom] = useState<LatLng>(location1);
+  const [directionTo, setDirectionTo] = useState<LatLng>(location2);
 
   const directionView = useMemo(() => {
     return (
@@ -77,24 +73,23 @@ const MainMap = () => {
           flexShrink: 1,
           alignSelf: 'stretch',
         }}
-        region={region}
-        onRegionChangeComplete={onRegionChange}>
-        <Circle radius={300} center={loactionFrom} />
+        initialRegion={region}>
+        <Circle radius={300} center={circleCenter} />
         <Marker
-          coordinate={loactionFrom}
+          coordinate={location1}
           draggable={true}
           onDrag={e => {
             console.log('onDragEnd', e.nativeEvent.coordinate);
-            setLocationFrom(e.nativeEvent.coordinate);
+            setCircleCenter(e.nativeEvent.coordinate);
           }}
           pinColor={'green'}
           onDragStart={e => {
             console.log('onDragStart', e.nativeEvent.coordinate);
-            setLocationFrom(e.nativeEvent.coordinate);
+            setCircleCenter(e.nativeEvent.coordinate);
           }}
           onDragEnd={e => {
             console.log('onDragEnd', e.nativeEvent.coordinate);
-            setLocationFrom(e.nativeEvent.coordinate);
+            setCircleCenter(e.nativeEvent.coordinate);
             setDirectionFrom(e.nativeEvent.coordinate);
           }}>
           <Callout>
@@ -103,20 +98,20 @@ const MainMap = () => {
         </Marker>
 
         <Marker
-          coordinate={loactionTo}
+          coordinate={location2}
           draggable={true}
           onDrag={e => {
             console.log('onDragEnd', e.nativeEvent.coordinate);
-            setLocationTo(e.nativeEvent.coordinate);
+            // setLocationTo(e.nativeEvent.coordinate);
           }}
           pinColor={'red'}
           onDragStart={e => {
             console.log('onDragStart', e.nativeEvent.coordinate);
-            setLocationTo(e.nativeEvent.coordinate);
+            // setLocationTo(e.nativeEvent.coordinate);
           }}
           onDragEnd={e => {
             console.log('onDragEnd', e.nativeEvent.coordinate);
-            setLocationTo(e.nativeEvent.coordinate);
+            // setLocationTo(e.nativeEvent.coordinate);
             setDirectionTo(e.nativeEvent.coordinate);
           }}>
           <Callout>
