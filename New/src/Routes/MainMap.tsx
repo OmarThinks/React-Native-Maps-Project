@@ -20,6 +20,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 3,
   },
+
+  detailText: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    // paddingBottom: 3,
+  },
 });
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
@@ -52,15 +60,21 @@ const MainMap = () => {
         strokeColor="blue"
         onReady={(directionsObject: MapDirectionsResponse) => {
           // console.log(directionsObject);
+
+          /*
           console.log('distance', directionsObject.distance);
           console.log('duration', directionsObject.duration);
           console.log('coordinates', directionsObject.coordinates);
           console.log('fares', directionsObject.fares);
           console.log('waypointOrder', directionsObject.waypointOrder);
           console.log('legs', directionsObject.legs);
-
-          setDuration(String(directionsObject.duration));
-          setDistance(String(directionsObject.distance));
+          */
+          setDuration(
+            String(Math.round(directionsObject.duration * 1000) / 1000),
+          );
+          setDistance(
+            String(Math.round(directionsObject.distance * 1000) / 1000),
+          );
         }}
       />
     );
@@ -81,7 +95,7 @@ const MainMap = () => {
           alignSelf: 'stretch',
           width: '100%',
         }}>
-        <GooglePlacesInput setTime={setDuration} setDistance={setDistance} />
+        <GooglePlacesInput />
       </View>
       <MapView
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -152,14 +166,15 @@ const MainMap = () => {
           backgroundColor: 'white',
           //justifyContent: 'space-around',
           flexDirection: 'row',
+          padding: 3,
         }}>
         <View style={{flex: 1}}>
           <Text style={[styles.detailHeader]}>Distance</Text>
-          <Text style={[styles.detailHeader]}>{distance}</Text>
+          <Text style={[styles.detailText]}>{distance} Kilometers</Text>
         </View>
         <View style={{flex: 1}}>
           <Text style={[styles.detailHeader]}>Duration</Text>
-          <Text style={[styles.detailHeader]}>{duration}</Text>
+          <Text style={[styles.detailText]}>{duration} Minutes</Text>
         </View>
       </View>
     </View>
