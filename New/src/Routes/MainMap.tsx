@@ -122,6 +122,23 @@ const MainMap = () => {
         </Marker>
         {directionView}
       </MapView>
+
+      <View
+        style={{
+          //flexGrow: 1,
+          flexShrink: 1,
+          alignSelf: 'stretch',
+          backgroundColor: 'white',
+          justifyContent: 'space-around',
+          flexDirection: 'row',
+        }}>
+        <View>
+          <Text>Trying</Text>
+        </View>
+        <View>
+          <Text>Trying</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -157,4 +174,10 @@ const GooglePlacesInput = () => {
         }}
       />
     </View>
+*/
+
+/*
+- [ ]: add the details of React Native maps Directions
+- [ ]: display search result Google Maps Places API
+
 */
