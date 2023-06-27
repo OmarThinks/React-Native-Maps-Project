@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapView, {
   Callout,
@@ -11,6 +11,7 @@ import MapView, {
 import MapViewDirections, {
   MapDirectionsResponse,
 } from 'react-native-maps-directions';
+import {GooglePlaceDetail} from 'react-native-google-places-autocomplete';
 
 const styles = StyleSheet.create({
   detailHeader: {
@@ -95,7 +96,12 @@ const MainMap = () => {
           alignSelf: 'stretch',
           width: '100%',
         }}>
-        <GooglePlacesInput />
+        <GooglePlacesInput
+          setLocation={(location: LatLng) => {
+            setCircleCenter(location);
+            setDirectionFrom(location);
+          }}
+        />
       </View>
       <MapView
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -116,16 +122,16 @@ const MainMap = () => {
           coordinate={location1}
           draggable={true}
           onDrag={e => {
-            console.log('onDragEnd', e.nativeEvent.coordinate);
+            //console.log('onDragEnd', e.nativeEvent.coordinate);
             setCircleCenter(e.nativeEvent.coordinate);
           }}
           pinColor={'green'}
           onDragStart={e => {
-            console.log('onDragStart', e.nativeEvent.coordinate);
+            //console.log('onDragStart', e.nativeEvent.coordinate);
             setCircleCenter(e.nativeEvent.coordinate);
           }}
           onDragEnd={e => {
-            console.log('onDragEnd', e.nativeEvent.coordinate);
+            //console.log('onDragEnd', e.nativeEvent.coordinate);
             setCircleCenter(e.nativeEvent.coordinate);
             setDirectionFrom(e.nativeEvent.coordinate);
           }}>
@@ -138,16 +144,16 @@ const MainMap = () => {
           coordinate={location2}
           draggable={true}
           onDrag={e => {
-            console.log('onDragEnd', e.nativeEvent.coordinate);
+            //console.log('onDragEnd', e.nativeEvent.coordinate);
             // setLocationTo(e.nativeEvent.coordinate);
           }}
           pinColor={'red'}
           onDragStart={e => {
-            console.log('onDragStart', e.nativeEvent.coordinate);
+            //console.log('onDragStart', e.nativeEvent.coordinate);
             // setLocationTo(e.nativeEvent.coordinate);
           }}
           onDragEnd={e => {
-            console.log('onDragEnd', e.nativeEvent.coordinate);
+            //console.log('onDragEnd', e.nativeEvent.coordinate);
             // setLocationTo(e.nativeEvent.coordinate);
             setDirectionTo(e.nativeEvent.coordinate);
           }}>
@@ -183,40 +189,43 @@ const MainMap = () => {
 
 export default MainMap;
 
-const GooglePlacesInput = () => {
+const GooglePlacesInput = ({
+  setLocation,
+}: {
+  setLocation: (location: LatLng) => void;
+}) => {
   return (
     <GooglePlacesAutocomplete
       placeholder="Search"
-      onPress={(data, details = null) => {
+      onPress={(data, details: GooglePlaceDetail | null = null) => {
         // 'details' is provided when fetchDetails = true
-        console.log(data, details);
+
+        if (details) {
+          console.log('details', details);
+          console.log(
+            details.geometry.location.lat,
+            details.geometry.location.lng,
+          );
+
+          setLocation({
+            latitude: details.geometry.location.lat,
+            longitude: details.geometry.location.lng,
+          });
+        }
+
+        // console.log('data', data);
       }}
       query={{
         key: GOOGLE_MAPS_APIKEY,
         language: 'en',
       }}
+      fetchDetails
+      GooglePlacesDetailsQuery={{fields: 'geometry'}}
+      //currentLocation
     />
   );
 };
 
 /*
-
-    <View style={styles.container2}>
-      <GooglePlacesAutocomplete
-        onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
-          console.log(data, details);
-        }}
-        query={{
-          key: GOOGLE_MAPS_APIKEY,
-          language: 'en',
-        }}
-      />
-    </View>
-*/
-
-/*
-- [ ]: add the details of React Native maps Directions
 - [ ]: display search result Google Maps Places API
-
 */
