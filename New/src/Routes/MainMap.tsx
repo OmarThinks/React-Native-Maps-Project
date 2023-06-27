@@ -1,15 +1,12 @@
-import React, {useState, Component, useMemo} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {StyleSheet, Text} from 'react-native';
 import MapView, {
-  PROVIDER_GOOGLE,
-  Marker,
-  Overlay,
-  UrlTile,
   Callout,
   Circle,
+  Marker,
+  PROVIDER_GOOGLE,
 } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import MapViewDirections from 'react-native-maps-directions';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,21 +24,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const MainMap = () => {
-  const location1 = {latitude: 37.78825, longitude: -122.4324};
-  const location2 = {latitude: 37.3318456, longitude: -122.0296002};
+type Location = {
+  latitude: number;
+  longitude: number;
+};
 
-  const [region, setRegion] = useState({
+type Direction = {
+  origin: Location;
+  destination: Location;
+  apikey: string;
+  strokeWidth: number;
+  strokeColor: string;
+};
+
+type Region = Location & {
+  latitudeDelta: number;
+  longitudeDelta: number;
+};
+
+const MainMap = () => {
+  const location1: Location = {latitude: 37.78825, longitude: -122.4324};
+  const location2: Location = {latitude: 37.3318456, longitude: -122.0296002};
+
+  const [region, setRegion] = useState<Region>({
     ...location1,
     latitudeDelta: 0.015,
     longitudeDelta: 0.0121,
   });
   //console.log('region', region);
 
-  const [loactionFrom, setLocationFrom] = useState(location1);
-  const [directionFrom, setDirectionFrom] = useState(location1);
-  const [loactionTo, setLocationTo] = useState(location2);
-  const [directionTo, setDirectionTo] = useState(location2);
+  const [loactionFrom, setLocationFrom] = useState<Location>(location1);
+  const [directionFrom, setDirectionFrom] = useState<Location>(location1);
+  const [loactionTo, setLocationTo] = useState<Location>(location2);
+  const [directionTo, setDirectionTo] = useState<Location>(location2);
 
   const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
 
@@ -57,7 +72,7 @@ const MainMap = () => {
     );
   }, [directionFrom, directionTo]);
 
-  const onRegionChange = regionNew => {
+  const onRegionChange = (regionNew: Region) => {
     setRegion(regionNew);
   };
 
@@ -121,8 +136,6 @@ export default MainMap;
 /*
 
 
-
-
 const GooglePlacesInput = () => {
   return (
     <GooglePlacesAutocomplete
@@ -138,7 +151,6 @@ const GooglePlacesInput = () => {
     />
   );
 };
-
 
 
     <View style={styles.container2}>
