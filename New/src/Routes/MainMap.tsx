@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapView, {
   Callout,
@@ -12,18 +12,15 @@ import MapViewDirections, {
   MapDirectionsResponse,
 } from 'react-native-maps-directions';
 
-type Region = LatLng & {
-  latitudeDelta: number;
-  longitudeDelta: number;
-};
-
-type DirectionObject = {
-  distance: Number;
-  duration: Number;
-  coordinates: [];
-  fare: Object;
-  waypointOrder: [[]];
-};
+const styles = StyleSheet.create({
+  detailHeader: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 3,
+  },
+});
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
 
@@ -31,17 +28,19 @@ const MainMap = () => {
   const location1: LatLng = {latitude: 37.78825, longitude: -122.4324};
   const location2: LatLng = {latitude: 37.3318456, longitude: -122.0296002};
 
-  const [region, setRegion] = useState<Region>({
+  const region = {
     ...location1,
     latitudeDelta: 0.015,
     longitudeDelta: 0.0121,
-  });
-  //console.log('region', region);
+  };
 
   const [circleCenter, setCircleCenter] = useState<LatLng>(location1);
 
   const [directionFrom, setDirectionFrom] = useState<LatLng>(location1);
   const [directionTo, setDirectionTo] = useState<LatLng>(location2);
+
+  const [duration, setDuration] = useState<string>('');
+  const [distance, setDistance] = useState<string>('');
 
   const directionView = useMemo(() => {
     return (
@@ -59,6 +58,9 @@ const MainMap = () => {
           console.log('fares', directionsObject.fares);
           console.log('waypointOrder', directionsObject.waypointOrder);
           console.log('legs', directionsObject.legs);
+
+          setDuration(String(directionsObject.duration));
+          setDistance(String(directionsObject.distance));
         }}
       />
     );
@@ -79,7 +81,7 @@ const MainMap = () => {
           alignSelf: 'stretch',
           width: '100%',
         }}>
-        <GooglePlacesInput />
+        <GooglePlacesInput setTime={setDuration} setDistance={setDistance} />
       </View>
       <MapView
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -152,14 +154,12 @@ const MainMap = () => {
           flexDirection: 'row',
         }}>
         <View style={{flex: 1}}>
-          <Text style={{textAlign: 'center', padding: 5, color: 'black'}}>
-            Trying
-          </Text>
-          <Text style={{textAlign: 'center', padding: 5}}>Trying</Text>
+          <Text style={[styles.detailHeader]}>Distance</Text>
+          <Text style={[styles.detailHeader]}>{distance}</Text>
         </View>
         <View style={{flex: 1}}>
-          <Text style={{textAlign: 'center', padding: 5}}>Trying</Text>
-          <Text style={{textAlign: 'center', padding: 5}}>Trying</Text>
+          <Text style={[styles.detailHeader]}>Duration</Text>
+          <Text style={[styles.detailHeader]}>{duration}</Text>
         </View>
       </View>
     </View>
@@ -183,6 +183,7 @@ const GooglePlacesInput = () => {
     />
   );
 };
+
 /*
 
     <View style={styles.container2}>
