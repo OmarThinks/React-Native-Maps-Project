@@ -51,6 +51,8 @@ const MainMap = () => {
   const [duration, setDuration] = useState<string>('');
   const [distance, setDistance] = useState<string>('');
 
+  const mapRef = React.useRef(null);
+
   const directionView = useMemo(() => {
     return (
       <MapViewDirections
@@ -110,7 +112,8 @@ const MainMap = () => {
           flexShrink: 1,
           alignSelf: 'stretch',
         }}
-        initialRegion={region}>
+        initialRegion={region}
+        ref={mapRef}>
         <Circle
           radius={300}
           center={circleCenter}
@@ -175,7 +178,19 @@ const MainMap = () => {
           padding: 3,
         }}>
         <View style={{flex: 1}}>
-          <Text style={[styles.detailHeader]}>Distance</Text>
+          <Text
+            style={[styles.detailHeader]}
+            onPress={() => {
+              mapRef.current.animateToRegion({
+                // ...circleCenter,
+                latitude: circleCenter.latitude + 0.01,
+                longitude: circleCenter.longitude + 0.01,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              });
+            }}>
+            Distance
+          </Text>
           <Text style={[styles.detailText]}>{distance} Kilometers</Text>
         </View>
         <View style={{flex: 1}}>
