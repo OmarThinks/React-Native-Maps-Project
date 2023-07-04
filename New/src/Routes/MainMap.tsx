@@ -52,6 +52,7 @@ const MainMap = () => {
   const [distance, setDistance] = useState<string>('');
 
   const mapRef = React.useRef(null);
+  const fromMarkerRef = React.useRef(null);
 
   const directionView = useMemo(() => {
     return (
@@ -108,6 +109,11 @@ const MainMap = () => {
               latitudeDelta: 0.01,
               longitudeDelta: 0.01,
             });
+
+            fromMarkerRef.current.animateMarkerToCoordinate({
+              latitude: location.latitude,
+              longitude: location.longitude,
+            });
           }}
         />
       </View>
@@ -143,7 +149,8 @@ const MainMap = () => {
             //console.log('onDragEnd', e.nativeEvent.coordinate);
             setCircleCenter(e.nativeEvent.coordinate);
             setDirectionFrom(e.nativeEvent.coordinate);
-          }}>
+          }}
+          ref={fromMarkerRef}>
           <Callout>
             <Text>From</Text>
           </Callout>
