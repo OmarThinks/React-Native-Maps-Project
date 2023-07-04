@@ -102,6 +102,12 @@ const MainMap = () => {
           setLocation={(location: LatLng) => {
             setCircleCenter(location);
             setDirectionFrom(location);
+            mapRef.current.animateToRegion({
+              latitude: location.latitude,
+              longitude: location.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            });
           }}
         />
       </View>
@@ -178,19 +184,7 @@ const MainMap = () => {
           padding: 3,
         }}>
         <View style={{flex: 1}}>
-          <Text
-            style={[styles.detailHeader]}
-            onPress={() => {
-              mapRef.current.animateToRegion({
-                // ...circleCenter,
-                latitude: circleCenter.latitude + 0.01,
-                longitude: circleCenter.longitude + 0.01,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              });
-            }}>
-            Distance
-          </Text>
+          <Text style={[styles.detailHeader]}>Distance</Text>
           <Text style={[styles.detailText]}>{distance} Kilometers</Text>
         </View>
         <View style={{flex: 1}}>
