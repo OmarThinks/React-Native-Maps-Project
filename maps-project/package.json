@@ -5,10 +5,15 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "prebuildAndroid": "expo prebuild --platform android",
+    "buildAndroidLocally": "eas build --platform android --profile production --local",
+    "buildAndroidLocallyAPK": "eas build --platform android --profile productionApk --local",
+    "clean": "rm -r node_modules android package-lock.json .expo modules/audio-streamer/android/build modules/audio-player/android/build modules/audio-stream-player/android/build",
+    "prebuild": "npm i && npx expo prebuild --platform android",
+    "android": "expo run:android"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.15.5",
@@ -16,6 +21,7 @@
     "@react-navigation/native": "^7.1.33",
     "expo": "~55.0.7",
     "expo-constants": "~55.0.8",
+    "expo-dev-client": "~55.0.17",
     "expo-device": "~55.0.10",
     "expo-font": "~55.0.4",
     "expo-glass-effect": "~55.0.8",
