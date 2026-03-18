@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyCR2azJfzwS52Om_9MM2Ss6lE6unmg1HAU';
-
 const MainMap = () => {
   const location1: LatLng = {latitude: 37.78825, longitude: -122.4324};
   const location2: LatLng = {latitude: 37.3318456, longitude: -122.0296002};
